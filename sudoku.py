@@ -163,7 +163,7 @@ class Board:
 def menu_options():
     font = pygame.font.Font(None, 95)
     font_2 = pygame.font.Font(None, 50)
-    menu_bg = pygame.image.load("critical_thinking.png").convert()
+    menu_bg = pygame.image.load("sudokustartscreen.jpg").convert()
     screen.blit(menu_bg, (-250, 75))
     welcome_text = "Welcome to Sudoku"
     prompt_text = "Select Game Mode"
