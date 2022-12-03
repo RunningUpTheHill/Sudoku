@@ -275,6 +275,7 @@ if __name__ == "__main__":
         booly, bol = True, False
         game_on = False
         cur_board = None
+        selected = False
 
         while True:
             if double_break: #Breaks again if double break intended
@@ -289,51 +290,64 @@ if __name__ == "__main__":
                 if event.type == pygame.QUIT:
                     pygame.quit()
 
+                if event.type == pygame.KEYDOWN:
+                    if selected:
+                        if event.Key == "K_s":
+                            cur_board.sketch(input())
+                            selected = False
+                        elif event.Key == "K_a":
+                            cur_board[y][x] = int(input())
+                            print(cur_board)
+                            selected = False
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if game_on:
                         y, x = cur_board.click()
                         cur_board.draw()
                         cur_board.select(y, x)
+                        selected = True
+                    try:
+                        if easy_button.click(position):
+                            booly, bol = False, True
+                            easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                            medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                            hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                            screen.fill(corn_silk)
+                            board_easy.draw()
+                            cur_board = board_easy
+                            game_on = True
 
-                    if easy_button.click(position):
-                        booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
-                        screen.fill(corn_silk)
-                        board_easy.draw()
-                        cur_board = board_easy
-                        game_on = True
+                        elif medium_button.click(position):
+                            booly, bol = False, True
+                            easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                            medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                            hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                            screen.fill(corn_silk)
+                            board_medium.draw()
+                            cur_board = board_medium
+                            game_on = True
 
-                    elif medium_button.click(position):
-                        booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
-                        screen.fill(corn_silk)
-                        board_medium.draw()
-                        cur_board = board_medium
-                        game_on = True
+                        elif hard_button.click(position):
+                            booly, bol = False, True
+                            easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                            medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                            hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                            screen.fill(corn_silk)
+                            board_hard.draw()
+                            cur_board = board_hard
+                            game_on = True
 
-                    elif hard_button.click(position):
-                        booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
-                        screen.fill(corn_silk)
-                        board_hard.draw()
-                        cur_board = board_hard
-                        game_on = True
+                        elif restart_button.click(position):
+                            double_break = True
+                            break
 
-                    elif restart_button.click(position):
-                        double_break = True
-                        break
+                        elif reset_button.click(position):
+                            cur_board.reset_to_original()
 
-                    elif reset_button.click(position):
-                        cur_board.reset_to_original()
-
-                    elif quit_button.click(position):
-                        pygame.quit()
+                        elif quit_button.click(position):
+                            pygame.quit()
+                    except:
+                        pass
 
                 if event.type == pygame.MOUSEMOTION:
                     if easy_button.click(position):
