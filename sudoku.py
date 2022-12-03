@@ -255,8 +255,8 @@ if __name__ == "__main__":
 
         game_over = False
         booly, bol = True, False
-
-        cur_board = board_easy
+        game_on = False
+        cur_board = None
 
         while True:
             if double_break: #Breaks again if double break intended
@@ -272,9 +272,10 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    y, x = cur_board.click()
-                    cur_board.draw()
-                    cur_board.select(y, x)
+                    if game_on:
+                        y, x = cur_board.click()
+                        cur_board.draw()
+                        cur_board.select(y, x)
 
                     if easy_button.click(position):
                         booly, bol = False, True
@@ -284,6 +285,7 @@ if __name__ == "__main__":
                         screen.fill(corn_silk)
                         board_easy.draw()
                         cur_board = board_easy
+                        game_on = True
 
                     elif medium_button.click(position):
                         booly, bol = False, True
@@ -293,6 +295,7 @@ if __name__ == "__main__":
                         screen.fill(corn_silk)
                         board_medium.draw()
                         cur_board = board_medium
+                        game_on = True
 
                     elif hard_button.click(position):
                         booly, bol = False, True
@@ -302,6 +305,7 @@ if __name__ == "__main__":
                         screen.fill(corn_silk)
                         board_hard.draw()
                         cur_board = board_hard
+                        game_on = True
 
                     elif restart_button.click(position):
                         double_break = True
