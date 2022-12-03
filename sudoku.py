@@ -163,9 +163,10 @@ class Board:
 
         sketch_num_surf = font.render(Cell.sketch_val, True, gray_color)
 
-    def place_number(self, value):
-        font = pygame.font.Font(None, 12)
-        num_surf = font.render(Cell.value, True, black_color)
+    def place_number(self):
+        choice = read_number()
+        cur_board.board[y][x] = int(choice)
+        self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def reset_to_original(self):
         self.board = self.tupl_board[0]
@@ -246,11 +247,11 @@ def option_interactive(bol):
         restart_button.draw(screen, darker_green, 40)
         quit_button.draw(screen, darker_green, 40)
 
+
 def read_number():
     choice = 0
     while True:  # Wait for user to press a number key
         for event in pygame.event.get():
-            print(1)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     choice = 1
@@ -322,11 +323,8 @@ if __name__ == "__main__":
                             cur_board.sketch(choice)
                             selected = False
 
-                        elif event.key == pygame.K_a:
-                            choice = read_number()
-                            print(cur_board.board)
-                            cur_board.board[y][x] = int(choice)
-                            print(cur_board.board)
+                        if event.key == pygame.K_a:
+                            cur_board.place_number()
                             selected = False
 
                 try:
