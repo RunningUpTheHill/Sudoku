@@ -4,7 +4,7 @@ from sudoku_generator import *
 width, height = 675, 750
 black_color = (0, 0, 0)
 gray_color = (128, 128, 128)
-corn_silk = (238, 232, 205)
+white_pearl = (250, 251, 245)
 red_color = (255, 0, 0)
 white_color = (255, 255, 255)
 yellow_color = (255, 255, 0)
@@ -242,9 +242,9 @@ def interactive_button(bool):
 
 def option_interactive(bol):
     if bol is True:
-        reset_button.draw(screen, black_color, 40)
-        restart_button.draw(screen, crimson_color, 40)
-        quit_button.draw(screen, emerald, 40)
+        reset_button.draw(screen, darker_green, 40)
+        restart_button.draw(screen, darker_green, 40)
+        quit_button.draw(screen, darker_green, 40)
 
 
 if __name__ == "__main__":
@@ -263,9 +263,9 @@ if __name__ == "__main__":
         easy_button = Button(menu_green, 50, 570, 75, 65, "Easy")
         medium_button = Button(menu_green, 180, 570, 120, 65, "Medium")
         hard_button = Button(menu_green, 350, 570, 75, 65, "Hard")
-        reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
-        restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
-        quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
+        reset_button = Button(menu_green, 150, 690, 80, 50, "Reset")
+        restart_button = Button(menu_green, 290, 690, 100, 50, "Restart")
+        quit_button = Button(menu_green, 450, 690, 80, 50, "Quit:(")
 
         game_over = False
         booly, bol = True, False
@@ -297,7 +297,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            screen.fill(corn_silk)
+                            screen.fill(white_pearl)
                             board_easy.draw()
                             cur_board = board_easy
                             game_on = True
@@ -307,7 +307,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            screen.fill(corn_silk)
+                            screen.fill(white_pearl)
                             board_medium.draw()
                             cur_board = board_medium
                             game_on = True
@@ -317,7 +317,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            screen.fill(corn_silk)
+                            screen.fill(white_pearl)
                             board_hard.draw()
                             cur_board = board_hard
                             game_on = True
