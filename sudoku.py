@@ -10,7 +10,8 @@ white_color = (255, 255, 255)
 yellow_color = (255, 255, 0)
 emerald = (0, 134, 139)
 turquoise = (64, 224, 208)
-antique_white = (250, 235, 215)
+menu_green = (148, 171, 67)
+darker_green = (123, 144, 56)
 aqua_marine = (127, 255, 212)
 brown_color = (139, 35, 35)
 crimson_color = (220, 20, 60)
@@ -199,17 +200,12 @@ class Board:
 
 
 def menu_options():
-    font = pygame.font.Font(None, 95)
     font_2 = pygame.font.Font(None, 50)
     menu_bg = pygame.image.load("sudokustartscreen.jpg").convert()
-    screen.blit(menu_bg, (-250, 75))
-    welcome_text = "Welcome to Sudoku"
+    screen.blit(menu_bg, (-65, 0))
     prompt_text = "Select Game Mode"
-    welcome_surf = font.render(welcome_text, True, antique_white)
-    welcome_rect = welcome_surf.get_rect(center=(width // 2, 40))
-    screen.blit(welcome_surf, welcome_rect)
-    prompt_surf = font_2.render(prompt_text, True, antique_white)
-    prompt_rect = prompt_surf.get_rect(center=(width // 2, 725))
+    prompt_surf = font_2.render(prompt_text, True, menu_green)
+    prompt_rect = prompt_surf.get_rect(center=(width // 3.35, 523))
     screen.blit(prompt_surf, prompt_rect)
 
 
@@ -264,9 +260,9 @@ if __name__ == "__main__":
         board_easy = Board(rows, cols, width, height, screen, "Easy")
         board_medium = Board(rows, cols, width, height, screen, "Medium")
         board_hard = Board(rows, cols, width, height, screen, "Hard")
-        easy_button = Button(black_color, 50, 610, 120, 80, "Easy")
-        medium_button = Button(black_color, 240, 610, 185, 80, "Medium")
-        hard_button = Button(black_color, 500, 610, 120, 80, "Hard")
+        easy_button = Button(menu_green, 50, 610, 120, 80, "Easy")
+        medium_button = Button(menu_green, 240, 610, 185, 80, "Medium")
+        hard_button = Button(menu_green, 500, 610, 120, 80, "Hard")
         reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
         restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
         quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
@@ -297,9 +293,9 @@ if __name__ == "__main__":
 
                     if easy_button.click(position):
                         booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                        easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_easy.draw()
                         cur_board = board_easy
@@ -307,9 +303,9 @@ if __name__ == "__main__":
 
                     elif medium_button.click(position):
                         booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                        easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_medium.draw()
                         cur_board = board_medium
@@ -317,9 +313,9 @@ if __name__ == "__main__":
 
                     elif hard_button.click(position):
                         booly, bol = False, True
-                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
-                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
-                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
+                        easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_hard.draw()
                         cur_board = board_hard
@@ -337,21 +333,21 @@ if __name__ == "__main__":
 
                 if event.type == pygame.MOUSEMOTION:
                     if easy_button.click(position):
-                        easy_button.color = red_color
+                        easy_button.color = darker_green
                     elif medium_button.click(position):
-                        medium_button.color = red_color
+                        medium_button.color = darker_green
                     elif hard_button.click(position):
-                        hard_button.color = red_color
+                        hard_button.color = darker_green
                     else:
-                        easy_button.color, medium_button.color, hard_button.color = black_color, black_color, black_color
+                        easy_button.color, medium_button.color, hard_button.color = menu_green, menu_green, menu_green
 
                     if reset_button.click(position):
-                        reset_button.color = black_color
+                        reset_button.color = darker_green
                     elif restart_button.click(position):
-                        restart_button.color = crimson_color
+                        restart_button.color = darker_green
                     elif quit_button.click(position):
-                        quit_button.color = emerald
+                        quit_button.color = darker_green
                     else:
-                        reset_button.color, restart_button.color, quit_button.color = turquoise, black_color, maroon
+                        reset_button.color, restart_button.color, quit_button.color = menu_green, menu_green, menu_green
 
             pygame.display.update()
