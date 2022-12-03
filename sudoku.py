@@ -4,6 +4,7 @@ from sudoku_generator import *
 width, height = 675, 750
 black_color = (0, 0, 0)
 gray_color = (128, 128, 128)
+white_pearl = (250, 251, 245)
 red_color = (255, 0, 0)
 white_color = (255, 255, 255)
 yellow_color = (255, 255, 0)
@@ -276,6 +277,12 @@ if __name__ == "__main__":
     pygame.init()
 
     while True:
+        pygame.mixer.init()
+
+
+        pygame.mixer.music.load('elevate.wav')
+        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.play(-1)
 
         double_break = False
 
@@ -336,8 +343,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
-                            screen.blit(new_bg, (0,0))
+                            screen.fill(white_pearl)
                             board_easy.draw()
                             cur_board = board_easy
                             game_on = True
@@ -347,7 +353,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+                            screen.fill(white_pearl)
                             board_medium.draw()
                             cur_board = board_medium
                             game_on = True
@@ -357,7 +363,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+                            screen.fill(white_pearl)
                             board_hard.draw()
                             cur_board = board_hard
                             game_on = True
