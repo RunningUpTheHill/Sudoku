@@ -343,7 +343,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            screen.fill(white_pearl)
+                            menu_bg = pygame.image.load("sudokustartscreen.jpg").convert()
                             board_easy.draw()
                             cur_board = board_easy
                             game_on = True
