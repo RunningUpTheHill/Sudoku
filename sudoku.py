@@ -337,15 +337,16 @@ if __name__ == "__main__":
                             cur_board = board_hard
                             game_on = True
 
-                        elif restart_button.click(position):
-                            double_break = True
-                            break
+                        if game_on:
+                            if restart_button.click(position):
+                                double_break = True
+                                break
 
-                        elif reset_button.click(position):
-                            cur_board.reset_to_original()
+                            elif reset_button.click(position):
+                                cur_board.reset_to_original()
 
-                        elif quit_button.click(position):
-                            pygame.quit()
+                            elif quit_button.click(position):
+                                pygame.quit()
                 except:
                     pass
 
