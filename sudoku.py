@@ -271,6 +271,7 @@ if __name__ == "__main__":
         booly, bol = True, False
         game_on = False
         cur_board = None
+        selected = False
 
         while True:
             if double_break: #Breaks again if double break intended
@@ -285,12 +286,26 @@ if __name__ == "__main__":
                 if event.type == pygame.QUIT:
                     pygame.quit()
 
+                if event.type == pygame.KEYDOWN:
+                    if selected:
+                        if event.key == pygame.K_s:
+                            while True:
+                                if event.key == pygame.K_1:
+                                    pass
+                            cur_board.sketch(input())
+                            selected = False
+                        elif event.key == pygame.K_a:
+                            cur_board[y][x] = int(input())
+                            print(cur_board)
+                            selected = False
+
                 try:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if game_on:
                             y, x = cur_board.click()
                             cur_board.draw()
                             cur_board.select(y, x)
+                            selected = True
 
                         if easy_button.click(position):
                             booly, bol = False, True
