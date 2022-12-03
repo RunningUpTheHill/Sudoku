@@ -273,7 +273,8 @@ if __name__ == "__main__":
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     y, x = cur_board.click()
-                    cur_board.select(x, y)
+                    cur_board.draw()
+                    cur_board.select(y, x)
 
                     if easy_button.click(position):
                         booly, bol = False, True
