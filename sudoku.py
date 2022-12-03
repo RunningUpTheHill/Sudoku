@@ -261,7 +261,7 @@ if __name__ == "__main__":
         game_over = False
         booly, bol = True, False
 
-        cur_board = None
+        cur_board = board_easy
 
         while True:
             if double_break: #Breaks again if double break intended
@@ -277,6 +277,10 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    y, x = cur_board.click()
+                    cur_board.select(x, y)
+
+
                     if easy_button.click(position):
                         booly, bol = False, True
                         screen.fill(corn_silk)
