@@ -236,8 +236,6 @@ def option_interactive(bol):
 if __name__ == "__main__":
     pygame.init()
 
-
-
     while True:
 
         double_break = False
@@ -248,12 +246,9 @@ if __name__ == "__main__":
         board_easy = Board(rows, cols, width, height, screen, "Easy")
         board_medium = Board(rows, cols, width, height, screen, "Medium")
         board_hard = Board(rows, cols, width, height, screen, "Hard")
-        easy_button = Button(black_color, 85, 450, 120, 80, "Easy")
-        easy_button.draw(screen, red_color)
-        medium_button = Button(black_color, 55, 300, 185, 80, "Medium")
-        medium_button.draw(screen, red_color)
-        hard_button = Button(black_color, 485, 500, 120, 80, "Hard")
-        hard_button.draw(screen, red_color)
+        easy_button = Button(black_color, 50, 610, 120, 80, "Easy")
+        medium_button = Button(black_color, 240, 610, 185, 80, "Medium")
+        hard_button = Button(black_color, 500, 610, 120, 80, "Hard")
         reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
         restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
         quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
@@ -280,25 +275,32 @@ if __name__ == "__main__":
                     y, x = cur_board.click()
                     cur_board.select(x, y)
 
-
                     if easy_button.click(position):
                         booly, bol = False, True
+                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_easy.draw()
                         cur_board = board_easy
 
                     elif medium_button.click(position):
                         booly, bol = False, True
+                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_medium.draw()
                         cur_board = board_medium
 
                     elif hard_button.click(position):
                         booly, bol = False, True
+                        easy_button = Button(black_color, 0, 0, 0, 0, "Easy")
+                        medium_button = Button(black_color, 0, 0, 0, 0, "Medium")
+                        hard_button = Button(black_color, 0, 0, 0, 0, "Hard")
                         screen.fill(corn_silk)
                         board_hard.draw()
                         cur_board = board_hard
-
 
                     elif restart_button.click(position):
                         double_break = True
