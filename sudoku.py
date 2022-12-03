@@ -127,23 +127,25 @@ class Board:
                 self.cell[i][j].draw(screen)
 
     def select(self, row, col):
-        for i in range(2):
-            pygame.draw.line(
-                screen,
-                red_color,
-                ((col + i) * cell_size, row * cell_size),
-                ((col + i) * cell_size, (row + 1) * cell_size),
-                line_width2
-            )
+        pos = pygame.mouse.get_pos()
+        if pos[1] <= 9 * cell_size:
+            for i in range(2):
+                pygame.draw.line(
+                    screen,
+                    red_color,
+                    ((col + i) * cell_size, row * cell_size),
+                    ((col + i) * cell_size, (row + 1) * cell_size),
+                    line_width2
+                )
 
-        for j in range(2):
-            pygame.draw.line(
-                screen,
-                red_color,
-                (col * cell_size, (row + j) * cell_size),
-                ((col + 1) * cell_size, (row + j) * cell_size),
-                line_width2
-            )
+            for j in range(2):
+                pygame.draw.line(
+                    screen,
+                    red_color,
+                    (col * cell_size, (row + j) * cell_size),
+                    ((col + 1) * cell_size, (row + j) * cell_size),
+                    line_width2
+                )
 
     def click(self):
         click_pos = pygame.mouse.get_pos()
