@@ -248,31 +248,27 @@ def option_interactive(bol):
         quit_button.draw(screen, darker_green, 40)
 
 
-def read_number():
+def read_number(): #Read the last key that was pressed if it is a number return it
     choice = 0
-    while True:  # Wait for user to press a number key
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:
-                    choice = 1
-                elif event.key == pygame.K_2:
-                    choice = 2
-                elif event.key == pygame.K_3:
-                    choice = 3
-                elif event.key == pygame.K_4:
-                    choice = 4
-                elif event.key == pygame.K_5:
-                    choice = 5
-                elif event.key == pygame.K_6:
-                    choice = 6
-                elif event.key == pygame.K_7:
-                    choice = 7
-                elif event.key == pygame.K_8:
-                    choice = 8
-                elif event.key == pygame.K_9:
-                    choice = 9
-        if choice != 0:
-            break
+
+    if event.key == pygame.K_1:
+        choice = 1
+    elif event.key == pygame.K_2:
+        choice = 2
+    elif event.key == pygame.K_3:
+        choice = 3
+    elif event.key == pygame.K_4:
+        choice = 4
+    elif event.key == pygame.K_5:
+        choice = 5
+    elif event.key == pygame.K_6:
+        choice = 6
+    elif event.key == pygame.K_7:
+        choice = 7
+    elif event.key == pygame.K_8:
+        choice = 8
+    elif event.key == pygame.K_9:
+        choice = 9
 
     return choice
 
@@ -323,9 +319,10 @@ if __name__ == "__main__":
                             cur_board.sketch(choice)
                             selected = False
 
-                        if event.key == pygame.K_a:
+                        else:
                             cur_board.place_number()
                             selected = False
+                            cur_board.draw()
 
                 try:
                     if event.type == pygame.MOUSEBUTTONDOWN:
