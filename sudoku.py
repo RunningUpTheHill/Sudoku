@@ -277,6 +277,12 @@ if __name__ == "__main__":
     pygame.init()
 
     while True:
+        pygame.mixer.init()
+
+
+        pygame.mixer.music.load('elevate.wav')
+        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.play(-1)
 
         double_break = False
 
