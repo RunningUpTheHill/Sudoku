@@ -68,6 +68,24 @@ class Board:
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def draw(self):
+        for r in range(2):
+            pygame.draw.line(
+                screen,
+                black_color,
+                (0, r * 9 * cell_size),
+                (width, r * 9 * cell_size),
+                line_width1
+            )
+
+        for b in range(2):
+            pygame.draw.line(
+                screen,
+                black_color,
+                (b * 9 * cell_size, 0),
+                (b * 9 * cell_size, 9 * cell_size),
+                line_width1
+            )
+
         for i in range(1, 4):
             pygame.draw.line(
                 screen,
@@ -229,8 +247,6 @@ def option_interactive(bol):
         reset_button.draw(screen, black_color, 40)
         restart_button.draw(screen, crimson_color, 40)
         quit_button.draw(screen, emerald, 40)
-
-
 
 
 if __name__ == "__main__":
