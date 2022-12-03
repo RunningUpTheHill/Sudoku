@@ -218,7 +218,7 @@ class Button():        # inspired by https://www.youtube.com/watch?v=4_9twnEduFA
         self.height = height
         self.text = text
 
-    def draw(self, screen, outline, font_size=65):
+    def draw(self, screen, outline, font_size=45):
         pygame.draw.rect(screen, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
         font = pygame.font.Font(None, font_size)
