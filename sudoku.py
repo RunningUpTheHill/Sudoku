@@ -62,7 +62,9 @@ class Board:
             self.val = 40
         else:
             self.val = 50
-        self.board = generate_sudoku(9, self.val)
+        self.tupl_board = generate_sudoku(9, self.val) #Generates a tuple that contains the ready board and correct solution
+        self.board = self.tupl_board[0]
+        self.correct = self.tupl_board[1]
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def draw(self):
@@ -133,7 +135,7 @@ class Board:
         return None
 
     def clear(self):
-        pass
+        self.value = 0
 
     def sketch(self, value):
         font = pygame.font.Font(None, 5)
@@ -145,19 +147,35 @@ class Board:
         num_surf = font.render(Cell.value, True, black_color)
 
     def reset_to_original(self):
-        pass
+        self.board = self.correct
 
     def is_full(self):
-        pass
+        count = 0
+        for row in self.board:
+            for col in row:
+                if col != 0:
+                    count += 1
+        if count == 81:
+            return True
+        else:
+            return False
 
     def update_board(self):
         pass
 
     def find_empty(self):
-        pass
+        for n in range(rows):
+            for m in range(cols):
+                if self.board[n][m] != self.correct[n][m]:
+                    return (n, m)
 
     def check_board(self):
-        pass
+        for n in range(rows):
+            for m in range(cols):
+                if self.board[n][m] != self.correct[n][m]:
+                    return False
+        else:
+            return True
 
 
 def menu_options():

@@ -113,6 +113,7 @@ class SudokuGenerator:
 def generate_sudoku(size, removed):    # generates the board for sudoku game
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
+    correct = sudoku.get_board()
     sudoku.remove_cells()
     board = sudoku.get_board()
-    return board
+    return (board, correct)
