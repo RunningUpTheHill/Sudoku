@@ -260,9 +260,9 @@ if __name__ == "__main__":
         board_easy = Board(rows, cols, width, height, screen, "Easy")
         board_medium = Board(rows, cols, width, height, screen, "Medium")
         board_hard = Board(rows, cols, width, height, screen, "Hard")
-        easy_button = Button(menu_green, 50, 610, 65, 60, "Easy")
-        medium_button = Button(menu_green, 200, 610, 185, 80, "Medium")
-        hard_button = Button(menu_green, 400, 610, 120, 80, "Hard")
+        easy_button = Button(menu_green, 50, 570, 75, 65, "Easy")
+        medium_button = Button(menu_green, 180, 570, 120, 65, "Medium")
+        hard_button = Button(menu_green, 350, 570, 75, 65, "Hard")
         reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
         restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
         quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
@@ -286,7 +286,6 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 try:
-
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if game_on:
                             y, x = cur_board.click()
