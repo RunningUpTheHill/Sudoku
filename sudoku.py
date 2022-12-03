@@ -246,6 +246,35 @@ def option_interactive(bol):
         restart_button.draw(screen, darker_green, 40)
         quit_button.draw(screen, darker_green, 40)
 
+def read_number():
+    choice = 0
+    while True:  # Wait for user to press a number key
+        for event in pygame.event.get():
+            print(1)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    choice = 1
+                elif event.key == pygame.K_2:
+                    choice = 2
+                elif event.key == pygame.K_3:
+                    choice = 3
+                elif event.key == pygame.K_4:
+                    choice = 4
+                elif event.key == pygame.K_5:
+                    choice = 5
+                elif event.key == pygame.K_6:
+                    choice = 6
+                elif event.key == pygame.K_7:
+                    choice = 7
+                elif event.key == pygame.K_8:
+                    choice = 8
+                elif event.key == pygame.K_9:
+                    choice = 9
+        if choice != 0:
+            break
+
+    return choice
+
 
 if __name__ == "__main__":
     pygame.init()
@@ -289,14 +318,15 @@ if __name__ == "__main__":
                 if event.type == pygame.KEYDOWN:
                     if selected:
                         if event.key == pygame.K_s:
-                            while True:
-                                if event.key == pygame.K_1:
-                                    pass
-                            cur_board.sketch(input())
+                            choice = read_number()
+                            cur_board.sketch(choice)
                             selected = False
+
                         elif event.key == pygame.K_a:
-                            cur_board[y][x] = int(input())
-                            print(cur_board)
+                            choice = read_number()
+                            print(cur_board.board)
+                            cur_board.board[y][x] = int(choice)
+                            print(cur_board.board)
                             selected = False
 
                 try:
