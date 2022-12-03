@@ -235,9 +235,9 @@ class Button():        # inspired by https://www.youtube.com/watch?v=4_9twnEduFA
 
 def interactive_button(bool):
     if bool is True:
-        easy_button.draw(screen, red_color)
-        medium_button.draw(screen, red_color)
-        hard_button.draw(screen, red_color)
+        easy_button.draw(screen, darker_green)
+        medium_button.draw(screen, darker_green)
+        hard_button.draw(screen, darker_green)
 
 
 def option_interactive(bol):
