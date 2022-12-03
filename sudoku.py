@@ -147,7 +147,7 @@ class Board:
         num_surf = font.render(Cell.value, True, black_color)
 
     def reset_to_original(self):
-        self.board = self.correct
+        self.board = self.tupl_board[0]
 
     def is_full(self):
         count = 0
@@ -231,68 +231,98 @@ def option_interactive(bol):
         quit_button.draw(screen, emerald, 40)
 
 
+
+
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Sudoku")
-    menu_options()
-    board_easy = Board(rows, cols, width, height, screen, "Easy")
-    board_medium = Board(rows, cols, width, height, screen, "Medium")
-    board_hard = Board(rows, cols, width, height, screen, "Hard")
-    easy_button = Button(black_color, 85, 450, 120, 80, "Easy")
-    easy_button.draw(screen, red_color)
-    medium_button = Button(black_color, 55, 300, 185, 80, "Medium")
-    medium_button.draw(screen, red_color)
-    hard_button = Button(black_color, 485, 500, 120, 80, "Hard")
-    hard_button.draw(screen, red_color)
-    reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
-    restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
-    quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
 
-    game_over = False
-    booly, bol = True, False
+
 
     while True:
-        for event in pygame.event.get():
-            position = pygame.mouse.get_pos()
-            interactive_button(booly)
-            option_interactive(bol)
+
+        double_break = False
+
+        screen = pygame.display.set_mode((width, height))
+        pygame.display.set_caption("Sudoku")
+        menu_options()
+        board_easy = Board(rows, cols, width, height, screen, "Easy")
+        board_medium = Board(rows, cols, width, height, screen, "Medium")
+        board_hard = Board(rows, cols, width, height, screen, "Hard")
+        easy_button = Button(black_color, 85, 450, 120, 80, "Easy")
+        easy_button.draw(screen, red_color)
+        medium_button = Button(black_color, 55, 300, 185, 80, "Medium")
+        medium_button.draw(screen, red_color)
+        hard_button = Button(black_color, 485, 500, 120, 80, "Hard")
+        hard_button.draw(screen, red_color)
+        reset_button = Button(turquoise, 150, 690, 80, 50, "Reset")
+        restart_button = Button(black_color, 290, 690, 100, 50, "Restart")
+        quit_button = Button(maroon, 450, 690, 80, 50, "Quit:(")
+
+        game_over = False
+        booly, bol = True, False
+
+        cur_board = None
+
+        while True:
+            if double_break: #Breaks again if double break intended
+                break
+
+            for event in pygame.event.get():
+                position = pygame.mouse.get_pos()
+                interactive_button(booly)
+                option_interactive(bol)
+                pygame.display.update()
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if easy_button.click(position):
+                        booly, bol = False, True
+                        screen.fill(corn_silk)
+                        board_easy.draw()
+                        cur_board = board_easy
+
+                    elif medium_button.click(position):
+                        booly, bol = False, True
+                        screen.fill(corn_silk)
+                        board_medium.draw()
+                        cur_board = board_medium
+
+                    elif hard_button.click(position):
+                        booly, bol = False, True
+                        screen.fill(corn_silk)
+                        board_hard.draw()
+                        cur_board = board_hard
+
+
+                    elif restart_button.click(position):
+                        double_break = True
+                        break
+
+                    elif reset_button.click(position):
+                        cur_board.reset_to_original()
+
+                    elif quit_button.click(position):
+                        pygame.quit()
+
+                if event.type == pygame.MOUSEMOTION:
+                    if easy_button.click(position):
+                        easy_button.color = red_color
+                    elif medium_button.click(position):
+                        medium_button.color = red_color
+                    elif hard_button.click(position):
+                        hard_button.color = red_color
+                    else:
+                        easy_button.color, medium_button.color, hard_button.color = black_color, black_color, black_color
+
+                    if reset_button.click(position):
+                        reset_button.color = black_color
+                    elif restart_button.click(position):
+                        restart_button.color = crimson_color
+                    elif quit_button.click(position):
+                        quit_button.color = emerald
+                    else:
+                        reset_button.color, restart_button.color, quit_button.color = turquoise, black_color, maroon
+
             pygame.display.update()
-
-            if event.type == pygame.QUIT:
-                pygame.quit()
-
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if easy_button.click(position):
-                    booly, bol = False, True
-                    screen.fill(corn_silk)
-                    board_easy.draw()
-                elif medium_button.click(position):
-                    booly, bol = False, True
-                    screen.fill(corn_silk)
-                    board_medium.draw()
-                elif hard_button.click(position):
-                    booly, bol = False, True
-                    screen.fill(corn_silk)
-                    board_hard.draw()
-
-            if event.type == pygame.MOUSEMOTION:
-                if easy_button.click(position):
-                    easy_button.color = red_color
-                elif medium_button.click(position):
-                    medium_button.color = red_color
-                elif hard_button.click(position):
-                    hard_button.color = red_color
-                else:
-                    easy_button.color, medium_button.color, hard_button.color = black_color, black_color, black_color
-
-                if reset_button.click(position):
-                    reset_button.color = black_color
-                elif restart_button.click(position):
-                    restart_button.color = crimson_color
-                elif quit_button.click(position):
-                    quit_button.color = emerald
-                else:
-                    reset_button.color, restart_button.color, quit_button.color = turquoise, black_color, maroon
-
-        pygame.display.update()
