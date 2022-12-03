@@ -344,6 +344,7 @@ if __name__ == "__main__":
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                             new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+                            screen.blit(new_bg, (0, 0))
                             board_easy.draw()
                             cur_board = board_easy
                             game_on = True
