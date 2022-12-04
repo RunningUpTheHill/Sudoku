@@ -159,11 +159,13 @@ class Board:
         cur_board.board[y][x] = 0
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
-
     def sketch(self, value):
+        pos = pygame.mouse.get_pos()
+        cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
         font = pygame.font.Font(None, 5)
-
-        sketch_num_surf = font.render(Cell.sketch_val, True, gray_color)
+        sketch_num_surf = font.render(value, True, gray_color)
+        sketch_num_rect = sketch_num_surf.get_rect(center=(cor_x // 4, cor_y // 4))
+        screen.blit(sketch_num_surf, sketch_num_rect)
 
     def place_number(self):
         choice = read_number()
@@ -251,7 +253,7 @@ def option_interactive(bol):
         quit_button.draw(screen, darker_green, 40)
 
 
-def read_number(): # Read the last key that was pressed if it is a number return it
+def read_number():  # Read the last key that was pressed if it is a number return it
     choice = 0
 
     if event.key == pygame.K_1:
@@ -279,7 +281,7 @@ def read_number(): # Read the last key that was pressed if it is a number return
 if __name__ == "__main__":
     pygame.init()
 
-    while True: #Game loop
+    while True:  #Game loop
         pygame.mixer.init()
 
 
@@ -326,7 +328,7 @@ if __name__ == "__main__":
                         if event.key == pygame.K_s:
                             choice = read_number()
                             cur_board.sketch(choice)
-                            selected = False
+                            selected = True
 
                         elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                             cur_board.clear()
@@ -350,7 +352,6 @@ if __name__ == "__main__":
                                 cur_board.draw()
                                 cur_board.select(y, x)
                                 selected = True
-
 
                         if easy_button.click(position):
                             booly, bol = False, True
