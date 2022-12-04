@@ -12,6 +12,7 @@ emerald = (0, 134, 139)
 turquoise = (64, 224, 208)
 menu_green = (148, 171, 67)
 darker_green = (123, 144, 56)
+game_over_green = (88, 104, 38)
 aqua_marine = (127, 255, 212)
 brown_color = (139, 35, 35)
 crimson_color = (220, 20, 60)
@@ -58,7 +59,7 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         if self.difficulty == "Easy":
-            self.val = 1
+            self.val = 30
         elif self.difficulty == 'Medium':
             self.val = 40
         else:
@@ -105,7 +106,7 @@ class Board:
                 line_width1
             )
 
-        for h in range(1, 9):
+        for h in range(1, 9):  # draws bolded lines (line_width2) to distinguish 3x3 boxes
             pygame.draw.line(
                 screen,
                 black_color,
@@ -123,13 +124,13 @@ class Board:
                 line_width2
             )
 
-        for i in range(self.rows):
+        for i in range(self.rows):  # draws the values within the cells
             for j in range(self.cols):
                 self.cell[i][j].draw(screen)
 
-    def select(self, row, col):
+    def select(self, row, col):  # draws red border for cell user selects
         pos = pygame.mouse.get_pos()
-        if pos[1] <= 9 * cell_size:
+        if pos[1] <= 9 * cell_size:  # makes sure no red squares do not print during start menu
             for i in range(2):
                 pygame.draw.line(
                     screen,
@@ -148,18 +149,18 @@ class Board:
                     line_width2
                 )
 
-    def click(self):
+    def click(self): # returns the position of the user's click
         click_pos = pygame.mouse.get_pos()
         x, y = click_pos[0] // cell_size, click_pos[1] // cell_size
         if x <= width:
             return y, x
         return None
 
-    def clear(self): #Clear a specific cell
+    def clear(self):  # Clear a specific cell
         cur_board.board[y][x] = 0
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
-    def sketch(self):
+    def sketch(self):  # sketches the user's input but draws it in gray_color to distinguish
         value = read_number()
         pos = pygame.mouse.get_pos()
         cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
@@ -168,7 +169,7 @@ class Board:
         sketch_num_rect = sketch_num_surf.get_rect(center=(cor_x // 4, cor_y // 4))
         screen.blit(sketch_num_surf, sketch_num_rect)
 
-    def place_number(self):
+    def place_number(self):  # user establishes their choice, this function is called when user hits enter
         choice = read_number()
         cur_board.board[y][x] = int(choice)
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
@@ -202,7 +203,8 @@ class Board:
             for m in range(cols):
                 if self.board[n][m] != self.correct[n][m]:
                     return False
-        return True
+        else:
+            return True
 
 
 def menu_options():
@@ -215,7 +217,7 @@ def menu_options():
     screen.blit(prompt_surf, prompt_rect)
 
 
-class Button():        # inspired by https://www.youtube.com/watch?v=4_9twnEduFA&ab_channel=TechWithTim
+class Button():  # inspired by https://www.youtube.com/watch?v=4_9twnEduFA&ab_channel=TechWithTim
     def __init__(self, color, x, y, width, height, text):
         self.color = color
         self.x = x
@@ -279,19 +281,20 @@ def read_number():  # Read the last key that was pressed if it is a number retur
 
 
 def game_over_screen():
-    font = pygame.font.Font(None, 50)
-    screen.fill(white_pearl)
+    font = pygame.font.Font(None, 120)
+    new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+    screen.blit(new_bg, (0, 0))
     if cur_board.check_board():
-        over_text = "Congrats Nerd! You get all the bishes..."
+        over_text = "You Win! :)"
     else:
-        over_text = "Game Over :<"
-    over_surf = font.render(over_text, True, turquoise)
+        over_text = "Game Over :("
+    over_surf = font.render(over_text, True, game_over_green)
     over_rect = over_surf.get_rect(center=(width // 2, height // 2))
     screen.blit(over_surf, over_rect)
 
-    res_button = Button(menu_green, 290, height // 2 + 50, 100, 50, "Restart")
-    exit_button = Button(menu_green, 290, height // 2 + 150, 80, 50, "Exit")
-    rst_button = Button(menu_green, 150, 2000, 80, 50, "Reset") #Move reset button off the screen
+    res_button = Button(game_over_green, 290, height // 2 + 80, 100, 50, "Restart")
+    exit_button = Button(game_over_green, 290, height // 2 + 150, 100, 50, "Exit")
+    rst_button = Button(game_over_green, 150, 2000, 80, 50, "Reset")  # Move reset button off the screen
     return (res_button, exit_button, rst_button)
 
 
@@ -300,6 +303,7 @@ if __name__ == "__main__":
 
     while True:  # Game loop
         pygame.mixer.init()
+
         pygame.mixer.music.load('elevate.wav')
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(-1)
@@ -340,7 +344,7 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s: #Toggle between sketch and non-sketch mode
+                    if event.key == pygame.K_s:  # Toggle between sketch and non-sketch mode
                         if mode_sketch == False:
                             mode_sketch = True
                         else:
