@@ -66,7 +66,7 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         if self.difficulty == "Easy":
-            self.val = 1
+            self.val = 30
         elif self.difficulty == 'Medium':
             self.val = 40
         else:
