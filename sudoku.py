@@ -155,8 +155,10 @@ class Board:
             return y, x
         return None
 
-    def clear(self):
-        self.value = 0
+    def clear(self): #Clear a specific cell
+        cur_board.board[y][x] = 0
+        self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
+
 
     def sketch(self, value):
         font = pygame.font.Font(None, 5)
@@ -325,10 +327,17 @@ if __name__ == "__main__":
                             cur_board.sketch(choice)
                             selected = False
 
+                        elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                            cur_board.clear()
+                            screen.blit(new_bg, (0, 0))
+                            cur_board.draw()
+
                         else:
                             cur_board.place_number()
-                            selected = False
+                            screen.blit(new_bg, (0, 0))
                             cur_board.draw()
+                            selected = False
+
 
                 try:
                     if event.type == pygame.MOUSEBUTTONDOWN:
@@ -336,6 +345,7 @@ if __name__ == "__main__":
                             y, x = cur_board.click()
                             selected = False
                             if (y <= 8) and cur_board.tupl_board[0][y][x] == 0:
+                                screen.blit(new_bg, (0, 0))
                                 cur_board.draw()
                                 cur_board.select(y, x)
                                 selected = True
