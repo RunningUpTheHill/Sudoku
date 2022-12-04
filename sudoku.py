@@ -66,7 +66,7 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         if self.difficulty == "Easy":
-            self.val = 30
+            self.val = 1
         elif self.difficulty == 'Medium':
             self.val = 40
         else:
@@ -309,7 +309,7 @@ if __name__ == "__main__":
         pygame.mixer.init()
 
         pygame.mixer.music.load('elevate.wav')
-        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.set_volume(0.15)
         pygame.mixer.music.play(-1)
 
         double_break = False
@@ -446,10 +446,14 @@ if __name__ == "__main__":
                         quit_button.color = darker_green
                     else:
                         reset_button.color, restart_button.color, quit_button.color = menu_green, menu_green, menu_green
-            if game_on and cur_board.is_full():
-                pygame.display.update()
-                pygame.time.delay(100)
-                restart_button, quit_button, reset_button = game_over_screen()
 
-
-            pygame.display.update()
+                if game_on and cur_board.is_full():
+                    pygame.display.update()
+                    restart_button, quit_button, reset_button = game_over_screen()
+                    if event.type == pygame.MOUSEMOTION:
+                        if restart_button.click(position):
+                            restart_button.color = darker_green
+                        elif quit_button.click(position):
+                            quit_button.color = darker_green
+                        else:
+                            restart_button.color, quit_button.color = menu_green, menu_green
