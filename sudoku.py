@@ -165,7 +165,7 @@ class Board:
 
     def clear(self):  # Clear a specific cell
         cur_board.board[y][x] = 0
-        self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
+        self.cell[y][x] = Cell(self.board[y][x], y, x, cell_size, cell_size)
 
     def sketch(self, pos):  # sketches the user's input but draws it in maroon color to distinguish
         cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
@@ -173,10 +173,10 @@ class Board:
         if sketch_value != 0:
             self.cell[cor_x][cor_y] = Cell(self.board[cor_x][cor_y], cor_x, cor_y, cell_size, cell_size, sketch_value)
 
-    def place_number(self):  # user establishes their choice, this function is called when user hits enter
+    def place_number(self):  # user establishes their choice, this function is called when user enters number
         choice = read_number()
         cur_board.board[y][x] = int(choice)
-        self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
+        self.cell[y][x] = Cell(self.board[y][x], y, x, cell_size, cell_size)
 
     def reset_to_original(self):
         self.board = copy.deepcopy(self.tupl_board[0])
