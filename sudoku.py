@@ -58,7 +58,7 @@ class Board:
         self.screen = screen
         self.difficulty = difficulty
         if self.difficulty == "Easy":
-            self.val = 30
+            self.val = 1
         elif self.difficulty == 'Medium':
             self.val = 40
         else:
@@ -281,7 +281,7 @@ def read_number():  # Read the last key that was pressed if it is a number retur
 def game_over_screen():
     font = pygame.font.Font(None, 50)
     screen.fill(white_pearl)
-    if cur_board.is_full() and cur_board.check_board():
+    if cur_board.check_board():
         over_text = "Congrats Nerd! You get all the bishes..."
     else:
         over_text = "Game Over :<"
@@ -291,6 +291,8 @@ def game_over_screen():
 
     res_button = Button(menu_green, 290, height // 2 + 50, 100, 50, "Restart")
     exit_button = Button(menu_green, 290, height // 2 + 150, 80, 50, "Exit")
+    rst_button = Button(menu_green, 150, 2000, 80, 50, "Reset") #Move reset button off the screen
+    return (res_button, exit_button, rst_button)
 
 
 if __name__ == "__main__":
@@ -339,7 +341,6 @@ if __name__ == "__main__":
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s: #Toggle between sketch and non-sketch mode
-                        print(191)
                         if mode_sketch == False:
                             mode_sketch = True
                         else:
@@ -353,11 +354,9 @@ if __name__ == "__main__":
 
                         elif event.key != pygame.K_s:
                             if mode_sketch:
-                                print(222)
                                 cur_board.sketch()
 
                             else:
-                                print(333)
                                 cur_board.place_number()
 
                             screen.blit(new_bg, (0, 0))
@@ -440,9 +439,10 @@ if __name__ == "__main__":
                         quit_button.color = darker_green
                     else:
                         reset_button.color, restart_button.color, quit_button.color = menu_green, menu_green, menu_green
-            if game_over:
+            if game_on and cur_board.is_full():
                 pygame.display.update()
-                pygame.time.delay(1000)
-                game_over_screen()
+                pygame.time.delay(100)
+                restart_button, quit_button, reset_button = game_over_screen()
+
 
             pygame.display.update()
