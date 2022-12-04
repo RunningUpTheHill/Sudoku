@@ -130,7 +130,7 @@ class Board:
 
     def select(self, row, col):  # draws red border for cell user selects
         pos = pygame.mouse.get_pos()
-        if pos[1] <= 9 * cell_size:  # makes sure no red squares do not print during start menu
+        if pos[1] <= 9 * cell_size:  # makes sure selections can't be made below the sudoku board
             for i in range(2):
                 pygame.draw.line(
                     screen,
@@ -164,10 +164,10 @@ class Board:
         value = read_number()
         pos = pygame.mouse.get_pos()
         cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
-        font = pygame.font.Font(None, 5)
-        sketch_num_surf = font.render(str(value), True, gray_color)
-        sketch_num_rect = sketch_num_surf.get_rect(center=(cor_x // 4, cor_y // 4))
-        screen.blit(sketch_num_surf, sketch_num_rect)
+        sketch_font = pygame.font.Font(None, 30)
+        sketch_surf = sketch_font.render(str(value), True, gray_color)
+        sketch_rect = sketch_surf.get_rect(center=(cor_x//4, cor_y//4))
+        screen.blit(sketch_surf, sketch_rect)
 
     def place_number(self):  # user establishes their choice, this function is called when user hits enter
         choice = read_number()
@@ -295,7 +295,7 @@ def game_over_screen():
     res_button = Button(game_over_green, 290, height // 2 + 80, 100, 50, "Restart")
     exit_button = Button(game_over_green, 290, height // 2 + 150, 100, 50, "Exit")
     rst_button = Button(game_over_green, 150, 2000, 80, 50, "Reset")  # Move reset button off the screen
-    return (res_button, exit_button, rst_button)
+    return res_button, exit_button, rst_button
 
 
 if __name__ == "__main__":
@@ -345,7 +345,7 @@ if __name__ == "__main__":
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_s:  # Toggle between sketch and non-sketch mode
-                        if mode_sketch == False:
+                        if mode_sketch is False:
                             mode_sketch = True
                         else:
                             mode_sketch = False
@@ -359,7 +359,6 @@ if __name__ == "__main__":
                         elif event.key != pygame.K_s:
                             if mode_sketch:
                                 cur_board.sketch()
-
                             else:
                                 cur_board.place_number()
 
