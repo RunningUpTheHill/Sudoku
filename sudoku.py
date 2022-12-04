@@ -1,7 +1,7 @@
 import pygame
 from sudoku_generator import *
 
-width, height = 675, 750
+width, height = 675, 750  # interface design variables, used for color, length, width, etc.
 black_color = (0, 0, 0)
 gray_color = (128, 128, 128)
 white_pearl = (250, 251, 245)
@@ -26,7 +26,7 @@ cols = 9
 
 
 class Cell:
-    def __init__(self, value, row, col, width, height):
+    def __init__(self, value, row, col, width, height):  # constructor for the cell class
         self.value = value
         self.row = row
         self.col = col
@@ -40,7 +40,7 @@ class Cell:
     def set_sketch_value(self, val):
         self.sketch_val = val
 
-    def draw(self, screen):
+    def draw(self, screen):  # draws the specified cell with value
         if self.value != 0:
             font = pygame.font.Font(None, 80)
             num_surf = font.render(str(self.value), True, black_color)
@@ -63,7 +63,7 @@ class Board:
             self.val = 40
         else:
             self.val = 50
-        self.tupl_board = generate_sudoku(9, self.val) #Generates a tuple that contains the ready board and correct solution
+        self.tupl_board = generate_sudoku(9, self.val)  # creates a tuple, contains the ready board & correct solution
         self.board = copy.deepcopy(self.tupl_board[0])
         self.correct = self.tupl_board[1]
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
@@ -250,7 +250,7 @@ def option_interactive(bol):
         quit_button.draw(screen, darker_green, 40)
 
 
-def read_number(): #Read the last key that was pressed if it is a number return it
+def read_number(): # Read the last key that was pressed if it is a number return it
     choice = 0
 
     if event.key == pygame.K_1:
@@ -356,7 +356,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+                            new_bg = pygame.image.load("backgroundblurinsert.png").convert()
                             screen.blit(new_bg, (0, 0))
                             board_easy.draw()
                             cur_board = board_easy
@@ -367,7 +367,7 @@ if __name__ == "__main__":
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
-                            new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
+                            new_bg = pygame.image.load("backgroundblurinsert.png").convert()
                             screen.blit(new_bg, (0, 0))
                             board_medium.draw()
                             cur_board = board_medium
