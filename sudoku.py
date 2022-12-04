@@ -64,7 +64,7 @@ class Board:
         else:
             self.val = 50
         self.tupl_board = generate_sudoku(9, self.val) #Generates a tuple that contains the ready board and correct solution
-        self.board = self.tupl_board[0]
+        self.board = copy.deepcopy(self.tupl_board[0])
         self.correct = self.tupl_board[1]
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
@@ -276,7 +276,7 @@ def read_number(): #Read the last key that was pressed if it is a number return 
 if __name__ == "__main__":
     pygame.init()
 
-    while True:
+    while True: #Game loop
         pygame.mixer.init()
 
 
@@ -334,8 +334,8 @@ if __name__ == "__main__":
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if game_on:
                             y, x = cur_board.click()
-
-                            if (y <= 8) and cur_board.tupl_board[1][y][x] == 0:
+                            selected = False
+                            if (y <= 8) and cur_board.tupl_board[0][y][x] == 0:
                                 cur_board.draw()
                                 cur_board.select(y, x)
                                 selected = True
