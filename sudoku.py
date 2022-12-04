@@ -159,11 +159,12 @@ class Board:
         cur_board.board[y][x] = 0
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
-    def sketch(self, value):
+    def sketch(self):
+        value = read_number()
         pos = pygame.mouse.get_pos()
         cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
         font = pygame.font.Font(None, 5)
-        sketch_num_surf = font.render(value, True, gray_color)
+        sketch_num_surf = font.render(str(value), True, gray_color)
         sketch_num_rect = sketch_num_surf.get_rect(center=(cor_x // 4, cor_y // 4))
         screen.blit(sketch_num_surf, sketch_num_rect)
 
@@ -309,6 +310,7 @@ if __name__ == "__main__":
         game_on = False
         cur_board = None
         selected = False
+        mode_sketch = False
 
         while True:
             if double_break: #Breaks again if double break intended
@@ -324,19 +326,28 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
-                    if selected:
-                        if event.key == pygame.K_s:
-                            choice = read_number()
-                            cur_board.sketch(choice)
-                            selected = True
+                    if event.key == pygame.K_s: #Toggle between sketch and non-sketch mode
+                        print(191)
+                        if mode_sketch == False:
+                            mode_sketch = True
+                        else:
+                            mode_sketch = False
 
-                        elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
+                    if selected:
+                        if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                             cur_board.clear()
                             screen.blit(new_bg, (0, 0))
                             cur_board.draw()
 
-                        else:
-                            cur_board.place_number()
+                        elif event.key != pygame.K_s:
+                            if mode_sketch:
+                                print(222)
+                                cur_board.sketch()
+
+                            else:
+                                print(333)
+                                cur_board.place_number()
+
                             screen.blit(new_bg, (0, 0))
                             cur_board.draw()
                             selected = False
