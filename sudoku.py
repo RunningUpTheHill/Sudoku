@@ -27,13 +27,13 @@ cols = 9
 
 
 class Cell:
-    def __init__(self, value, row, col, width, height):  # constructor for the cell class
+    def __init__(self, value, row, col, width, height, sketch_val=None):  # constructor for the cell class
         self.value = value
         self.row = row
         self.col = col
         self.width = width
         self.height = height
-        self.sketch_val = None
+        self.sketch_val = sketch_val
 
     def set_value(self, val):
         self.value = val
@@ -48,6 +48,13 @@ class Cell:
             num_rect = num_surf.get_rect(center=(cell_size * self.col + cell_size // 2,
                                                  cell_size * self.row + cell_size // 2))
             screen.blit(num_surf, num_rect)
+
+        if self.sketch_val is not None:
+            sketch_font = pygame.font.Font(None, 30)
+            sketch_surf = sketch_font.render(str(self.sketch_val), True, maroon)
+            sketch_rect = sketch_surf.get_rect(center=(cell_size * self.col + cell_size // 5, cell_size * self.row +
+                                                       cell_size // 5))
+            screen.blit(sketch_surf, sketch_rect)
 
 
 class Board:
@@ -160,14 +167,11 @@ class Board:
         cur_board.board[y][x] = 0
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
-    def sketch(self):  # sketches the user's input but draws it in gray_color to distinguish
-        value = read_number()
+    def sketch(self):  # sketches the user's input but draws it in maroon color to distinguish
         pos = pygame.mouse.get_pos()
         cor_x, cor_y = pos[1] // cell_size, pos[0] // cell_size
-        sketch_font = pygame.font.Font(None, 30)
-        sketch_surf = sketch_font.render(str(value), True, gray_color)
-        sketch_rect = sketch_surf.get_rect(center=(cor_x//4, cor_y//4))
-        screen.blit(sketch_surf, sketch_rect)
+        sketch_value = read_number()
+        self.cell[cor_x][cor_y] = Cell(self.board[cor_x][cor_y], cor_x, cor_y, cell_size, cell_size, sketch_value)
 
     def place_number(self):  # user establishes their choice, this function is called when user hits enter
         choice = read_number()
