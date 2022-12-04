@@ -171,7 +171,8 @@ class Board:
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def reset_to_original(self):
-        self.board = self.tupl_board[0]
+        self.board = copy.deepcopy(self.tupl_board[0])
+        self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def is_full(self):
         count = 0
@@ -391,6 +392,8 @@ if __name__ == "__main__":
 
                             elif reset_button.click(position):
                                 cur_board.reset_to_original()
+                                screen.blit(new_bg, (0, 0))
+                                cur_board.draw()
 
                             elif quit_button.click(position):
                                 pygame.quit()
