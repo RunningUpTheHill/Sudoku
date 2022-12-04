@@ -1,5 +1,6 @@
 import math
 import random
+import copy
 
 
 class SudokuGenerator:
@@ -109,11 +110,10 @@ class SudokuGenerator:
                 self.board[index_1][index_2] = 0
                 num += 1    # increment by 1
 
-
 def generate_sudoku(size, removed):    # generates the board for sudoku game
     sudoku = SudokuGenerator(size, removed)
     sudoku.fill_values()
-    correct = sudoku.get_board()
+    correct = copy.deepcopy(sudoku.get_board())
     sudoku.remove_cells()
     board = sudoku.get_board()
     return (board, correct)
