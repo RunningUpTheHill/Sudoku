@@ -202,8 +202,7 @@ class Board:
             for m in range(cols):
                 if self.board[n][m] != self.correct[n][m]:
                     return False
-        else:
-            return True
+        return True
 
 
 def menu_options():
@@ -279,13 +278,26 @@ def read_number():  # Read the last key that was pressed if it is a number retur
     return choice
 
 
+def game_over_screen():
+    font = pygame.font.Font(None, 50)
+    screen.fill(white_pearl)
+    if cur_board.is_full() and cur_board.check_board():
+        over_text = "Congrats Nerd! You get all the bishes..."
+    else:
+        over_text = "Game Over :<"
+    over_surf = font.render(over_text, True, turquoise)
+    over_rect = over_surf.get_rect(center=(width // 2, height // 2))
+    screen.blit(over_surf, over_rect)
+
+    res_button = Button(menu_green, 290, height // 2 + 50, 100, 50, "Restart")
+    exit_button = Button(menu_green, 290, height // 2 + 150, 80, 50, "Exit")
+
+
 if __name__ == "__main__":
     pygame.init()
 
-    while True:  #Game loop
+    while True:  # Game loop
         pygame.mixer.init()
-
-
         pygame.mixer.music.load('elevate.wav')
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(-1)
@@ -313,7 +325,7 @@ if __name__ == "__main__":
         mode_sketch = False
 
         while True:
-            if double_break: #Breaks again if double break intended
+            if double_break:  # Breaks again if double break intended
                 break
 
             for event in pygame.event.get():
@@ -351,8 +363,6 @@ if __name__ == "__main__":
                             screen.blit(new_bg, (0, 0))
                             cur_board.draw()
                             selected = False
-
-
                 try:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if game_on:
@@ -430,5 +440,9 @@ if __name__ == "__main__":
                         quit_button.color = darker_green
                     else:
                         reset_button.color, restart_button.color, quit_button.color = menu_green, menu_green, menu_green
+            if game_over:
+                pygame.display.update()
+                pygame.time.delay(1000)
+                game_over_screen()
 
             pygame.display.update()
