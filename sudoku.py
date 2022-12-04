@@ -42,14 +42,14 @@ class Cell:
         self.sketch_val = val
 
     def draw(self, screen):  # draws the specified cell with value
-        if self.value != 0:
+        if self.value != 0:    # if sudoku board's box value is not 0 in 2D list, draw value of box
             font = pygame.font.Font(None, 80)
             num_surf = font.render(str(self.value), True, black_color)
             num_rect = num_surf.get_rect(center=(cell_size * self.col + cell_size // 2,
                                                  cell_size * self.row + cell_size // 2))
             screen.blit(num_surf, num_rect)
 
-        if self.sketch_val is not None:
+        if self.sketch_val is not None:    # if sketch value is available, draw the sketch value
             sketch_font = pygame.font.Font(None, 30)
             sketch_surf = sketch_font.render(str(self.sketch_val), True, maroon)
             sketch_rect = sketch_surf.get_rect(center=(cell_size * self.col + cell_size // 5, cell_size * self.row +
@@ -65,25 +65,26 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        if self.difficulty == "Easy":
+        if self.difficulty == "Easy":    # if game mode selected is easy, self.val is set to 30, take away 30 boxes
             self.val = 30
-        elif self.difficulty == 'Medium':
+        elif self.difficulty == 'Medium':       # if game mode selected id hard, self.val set to 40, take away 40 boxes
             self.val = 40
         else:
-            self.val = 50
+            self.val = 50    # for hard mode, take away 50 boxes
         self.tupl_board = generate_sudoku(9, self.val)  # creates a tuple, contains the ready board & correct solution
-        self.board = copy.deepcopy(self.tupl_board[0])
-        self.correct = self.tupl_board[1]
+        self.board = copy.deepcopy(self.tupl_board[0])    # sudoku board after randomly taking away values
+        self.correct = self.tupl_board[1]    # the sudoku board's initial state before randomly taking away values
+        # draws individual boxes contains values for the sudoku board
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
     def draw(self):
-        for r in range(2):
+        for r in range(2):  # draws the border of the sudoku board
             pygame.draw.line(
                 screen,
                 black_color,
                 (0, r * 9 * cell_size),
                 (width, r * 9 * cell_size),
-                line_width1
+                line_width2
             )
 
         for b in range(2):
@@ -92,10 +93,10 @@ class Board:
                 black_color,
                 (b * 9 * cell_size, 0),
                 (b * 9 * cell_size, 9 * cell_size),
-                line_width1
+                line_width2
             )
 
-        for i in range(1, 4):
+        for i in range(1, 4):  # draws the bolded lines (line width 1) to distinguish 3x3 boxes
             pygame.draw.line(
                 screen,
                 black_color,
@@ -113,7 +114,7 @@ class Board:
                 line_width1
             )
 
-        for h in range(1, 9):  # draws bolded lines (line_width2) to distinguish 3x3 boxes
+        for h in range(1, 9):  # draws thinner lines (line_width2) to create 3x3 boxes
             pygame.draw.line(
                 screen,
                 black_color,
@@ -131,7 +132,7 @@ class Board:
                 line_width2
             )
 
-        for i in range(self.rows):  # draws the values within the cells
+        for i in range(self.rows):  # draws the cells containing values
             for j in range(self.cols):
                 self.cell[i][j].draw(screen)
 
@@ -156,7 +157,7 @@ class Board:
                     line_width2
                 )
 
-    def click(self): # returns the position of the user's click
+    def click(self):  # returns the position of the user's click
         click_pos = pygame.mouse.get_pos()
         x, y = click_pos[0] // cell_size, click_pos[1] // cell_size
         if x <= width:
@@ -178,11 +179,11 @@ class Board:
         cur_board.board[y][x] = int(choice)
         self.cell[y][x] = Cell(self.board[y][x], y, x, cell_size, cell_size)
 
-    def reset_to_original(self):
+    def reset_to_original(self):   # redraws the sudoku board to its beginning state
         self.board = copy.deepcopy(self.tupl_board[0])
         self.cell = [[Cell(self.board[i][j], i, j, cell_size, cell_size) for j in range(cols)] for i in range(rows)]
 
-    def is_full(self):
+    def is_full(self):   # counts if the available boxes become full
         count = 0
         for row in self.board:
             for col in row:
@@ -193,16 +194,7 @@ class Board:
         else:
             return False
 
-    def update_board(self):
-        pass
-
-    def find_empty(self):
-        for n in range(rows):
-            for m in range(cols):
-                if self.board[n][m] != self.correct[n][m]:
-                    return (n, m)
-
-    def check_board(self):
+    def check_board(self): # checks if current board matches the original board before values are removed
         for n in range(rows):
             for m in range(cols):
                 if self.board[n][m] != self.correct[n][m]:
@@ -211,9 +203,9 @@ class Board:
             return True
 
 
-def menu_options():
+def menu_options():    # creates an interface for game mode selection
     font_2 = pygame.font.Font(None, 50)
-    menu_bg = pygame.image.load("sudokustartscreen.jpg").convert()
+    menu_bg = pygame.image.load("sudokustartscreen.jpg").convert()    # sets background picture for interface
     screen.blit(menu_bg, (-65, 0))
     prompt_text = "Select Game Mode"
     prompt_surf = font_2.render(prompt_text, True, menu_green)
@@ -230,7 +222,7 @@ class Button():  # inspired by https://www.youtube.com/watch?v=4_9twnEduFA&ab_ch
         self.height = height
         self.text = text
 
-    def draw(self, screen, outline, font_size=45):
+    def draw(self, screen, outline, font_size=45):    # draws the button
         pygame.draw.rect(screen, outline, (self.x - 2, self.y - 2, self.width + 4, self.height + 4), 0)
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height), 0)
         font = pygame.font.Font(None, font_size)
@@ -238,28 +230,28 @@ class Button():  # inspired by https://www.youtube.com/watch?v=4_9twnEduFA&ab_ch
         screen.blit(text, (self.x + (self.width / 2 - text.get_width() / 2), self.y +
                            (self.height / 2 - text.get_height() / 2)))
 
-    def click(self, pos):
+    def click(self, pos):    # checks if user click is within the box's borders
         if ((pos[0] > self.x) and (pos[0] < self.x + self.width)) and \
                 ((pos[1] > self.y) and (pos[1] < self.y + self.height)):
             return True
         return False
 
 
-def interactive_button(bool):
+def interactive_button(bool):    # buttons can change color depending on mouse motion for game mode selection menu
     if bool is True:
         easy_button.draw(screen, darker_green)
         medium_button.draw(screen, darker_green)
         hard_button.draw(screen, darker_green)
 
 
-def option_interactive(bol):
+def option_interactive(bol):   # buttons can change color depending on mouse motion for in-game menu
     if bol is True:
         reset_button.draw(screen, darker_green, 40)
         restart_button.draw(screen, darker_green, 40)
         quit_button.draw(screen, darker_green, 40)
 
 
-def read_number():  # Read the last key that was pressed if it is a number return it
+def read_number():  # Read the last key that was pressed, if it is a number return it
     choice = 0
 
     if event.key == pygame.K_1:
@@ -284,11 +276,11 @@ def read_number():  # Read the last key that was pressed if it is a number retur
     return choice
 
 
-def game_over_screen():
+def game_over_screen():  # creates an interface after the sudoku board is completely filled
     font = pygame.font.Font(None, 120)
     new_bg = pygame.image.load("sudokubackgroundblurred.png").convert()
     screen.blit(new_bg, (0, 0))
-    if cur_board.check_board():
+    if cur_board.check_board():    # if check_board returns true, user won
         over_text = "You Win! :)"
     else:
         over_text = "Game Over :("
@@ -303,10 +295,10 @@ def game_over_screen():
 
 
 if __name__ == "__main__":
-    pygame.init()
+    pygame.init()    # initializing pygame
 
     while True:  # Game loop
-        pygame.mixer.init()
+        pygame.mixer.init()     # background music for game
 
         pygame.mixer.music.load('elevate.wav')
         pygame.mixer.music.set_volume(0.15)
@@ -317,6 +309,7 @@ if __name__ == "__main__":
         screen = pygame.display.set_mode((width, height))
         pygame.display.set_caption("Sudoku")
         menu_options()
+        # initialize the board and buttons for game
         board_easy = Board(rows, cols, width, height, screen, "Easy")
         board_medium = Board(rows, cols, width, height, screen, "Medium")
         board_hard = Board(rows, cols, width, height, screen, "Hard")
@@ -348,13 +341,14 @@ if __name__ == "__main__":
                     pygame.quit()
 
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_s:  # Toggle between sketch and non-sketch mode
+                    if event.key == pygame.K_s:  # Toggle between sketch and non-sketch mode by pressing s
                         if mode_sketch is False:
                             mode_sketch = True
                         else:
                             mode_sketch = False
 
                     if selected:
+                        # if user presses backspace or delete on keyboard, the cell value is cleared
                         if event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                             cur_board.clear()
                             screen.blit(new_bg, (0, 0))
@@ -363,11 +357,11 @@ if __name__ == "__main__":
                         elif event.key != pygame.K_s:
                             if mode_sketch:
                                 try:
-                                    cur_board.sketch(pos)
+                                    cur_board.sketch(pos)    # places a sketch value on box
                                 except:
                                     pass
                             else:
-                                cur_board.place_number()
+                                cur_board.place_number()    # places number in box
 
                             screen.blit(new_bg, (0, 0))
                             cur_board.draw()
@@ -381,12 +375,12 @@ if __name__ == "__main__":
                             if (y <= 8) and cur_board.tupl_board[0][y][x] == 0:
                                 screen.blit(new_bg, (0, 0))
                                 cur_board.draw()
-                                cur_board.select(y, x)
+                                cur_board.select(y, x)      # selects the box if user clicks on the box
                                 selected = True
 
-                        if easy_button.click(position):
-                            booly, bol = False, True
-                            easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
+                        if easy_button.click(position):  # if user clicks on the easy mode button, initialize easy board
+                            bol, booly = True, False
+                            easy_button = Button(menu_green, 1, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                             new_bg = pygame.image.load("backgroundblurinsert.png").convert()
@@ -395,9 +389,10 @@ if __name__ == "__main__":
                             cur_board = board_easy
                             game_on = True
 
-                        elif medium_button.click(position):
-                            booly, bol = False, True
-                            easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
+                        elif medium_button.click(position):   # if user clicks on medium mode button, init medium board
+                            booly = False
+                            bol = True
+                            easy_button = Button(menu_green, 0, 1, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
                             hard_button = Button(menu_green, 0, 0, 0, 0, "Hard")
                             new_bg = pygame.image.load("backgroundblurinsert.png").convert()
@@ -406,7 +401,7 @@ if __name__ == "__main__":
                             cur_board = board_medium
                             game_on = True
 
-                        elif hard_button.click(position):
+                        elif hard_button.click(position):   # if user clicks on hard mode button, init hard board
                             booly, bol = False, True
                             easy_button = Button(menu_green, 0, 0, 0, 0, "Easy")
                             medium_button = Button(menu_green, 0, 0, 0, 0, "Medium")
@@ -418,21 +413,21 @@ if __name__ == "__main__":
                             game_on = True
 
                         if game_on:
-                            if restart_button.click(position):
+                            if restart_button.click(position):  # if restart button is clicked, return user to main menu
                                 double_break = True
                                 break
 
-                            elif reset_button.click(position):
+                            elif reset_button.click(position):   # if reset button is clicked, reset the board
                                 cur_board.reset_to_original()
                                 screen.blit(new_bg, (0, 0))
                                 cur_board.draw()
 
-                            elif quit_button.click(position):
+                            elif quit_button.click(position):    # if quit button is clicked, exit pygame
                                 pygame.quit()
                 except:
                     pass
 
-                if event.type == pygame.MOUSEMOTION:
+                if event.type == pygame.MOUSEMOTION:    # detects mouse motion to change button color when hovering
                     if easy_button.click(position):
                         easy_button.color = darker_green
                     elif medium_button.click(position):
@@ -451,10 +446,10 @@ if __name__ == "__main__":
                     else:
                         reset_button.color, restart_button.color, quit_button.color = menu_green, menu_green, menu_green
 
-                if game_on and cur_board.is_full():
+                if game_on and cur_board.is_full():   # checks if player has filled the board completely and won
                     pygame.display.update()
                     restart_button, quit_button, reset_button = game_over_screen()
-                    if event.type == pygame.MOUSEMOTION:
+                    if event.type == pygame.MOUSEMOTION: # detects mouse motion for hovering over buttons (color change)
                         if restart_button.click(position):
                             restart_button.color = darker_green
                         elif quit_button.click(position):
